@@ -16,6 +16,25 @@
 
 }
 
+:root {
+  --dark-color-1: #000000;
+  --main-accent-color: #ca0000;
+}
+
+body {
+  margin: 0;
+}
+
 #content {
+  display: flex;
+  min-height: 100dvh;
+  justify-content: center;
   font-family: 'drius_straightregular', sans-serif;
+  background-color: var(--dark-color-1);
+  color: var(--main-accent-color);
+}
+
+.main-title {
+  margin: 0.25em;
+  font-size: clamp(2.5rem, 5vw, 5rem);
 }
