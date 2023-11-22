@@ -1,0 +1,21 @@
+@font-face {
+  font-family: 'drius_halftoneregular';
+  src: url('./fonts/drius/driushalf-webfont.woff2') format('woff2'),
+    url('./fonts/drius/driushalf-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'drius_straightregular';
+  src: url('./fonts/drius/driusstraight-webfont.woff2') format('woff2'),
+    url('./fonts/drius/driusstraight-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+#content {
+  font-family: 'drius_straightregular', sans-serif;
+}
