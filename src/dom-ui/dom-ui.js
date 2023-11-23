@@ -1,8 +1,19 @@
 import Ship from "../ship";
 import Gameboard from "../gameboard";
 import { Player, AIPlayer } from "../player";
+import {
+  randomIndex,
+  randomOrientation,
+  getAdjecentList,
+  isPlacementValid,
+} from "../placement-logic";
 
-function setUpPlayerBoard() {
+const specification = {
+  numberOfShips: 9,
+  length: 5,
+};
+
+const setUpPlayerBoard = () => {
   const player = Player("player1");
   const board = Gameboard(10);
   board.placeShip([0, 0], Ship(4), "row");
@@ -14,26 +25,65 @@ function setUpPlayerBoard() {
   board.placeShip([7, 8], Ship(1), "row");
   board.placeShip([7, 8], Ship(1), "row");
 
-  return {
-    player,
-    board,
-  };
-}
+  return { player, board };
+};
 
-function setUpGameboardDom() {
-  const player1 = setUpPlayerBoard();
-  const p1BoardDom = document.createElement("div");
-  p1BoardDom.classList.add("gameboard");
-  player1.board.board.forEach((square, index) => {
+const populateBoard = (board, spec) => {
+  let successPlacement = 0;
+  let { length } = spec;
+
+  while (successPlacement < spec.numberOfShips) {
+    const index = randomIndex(board.board.length);
+    const ship = Ship(length);
+    const orientation = randomOrientation();
+    const coordinatesIndexList = board.findAllCoordinatesIndex(
+      board.board[index].coordinates,
+      ship,
+      orientation,
+    );
+
+    const adjecentList = getAdjecentList(coordinatesIndexList, board.board);
+
+    if (isPlacementValid(coordinatesIndexList, adjecentList, board.board)) {
+      board.placeShip(board.board[index].coordinates, ship, orientation);
+      successPlacement += 1;
+      if (successPlacement % 2 === 0) {
+        length -= 1;
+      }
+    }
+  }
+};
+
+const setUpAIBoard = (name) => {
+  const player = AIPlayer(name);
+  const board = Gameboard(10);
+  populateBoard(board, specification);
+
+  return { player, board };
+};
+
+const creatGameboardDom = (player) => {
+  const boardDom = document.createElement("div");
+  boardDom.setAttribute("name", `${player.player.name}`);
+  boardDom.classList.add("gameboard");
+
+  player.board.board.forEach((square, index) => {
     const squareDom = document.createElement("button");
+    squareDom.setAttribute(
+      "data-coordinates",
+      `[${player.board.board[index].coordinates}]`,
+    );
     squareDom.classList.add("square");
-    if (player1.board.board[index].ship) {
+    if (player.board.board[index].ship) {
       squareDom.classList.add("ship");
     }
-    p1BoardDom.appendChild(squareDom);
+
+    boardDom.appendChild(squareDom);
   });
 
-  return p1BoardDom;
-}
+  return boardDom;
+};
 
-export { setUpGameboardDom };
+const setUpGameboardDom = (player) => creatGameboardDom(player);
+
+export { setUpGameboardDom, setUpPlayerBoard, setUpAIBoard };
