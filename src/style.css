@@ -18,7 +18,13 @@
 
 :root {
   --dark-color-1: #000000;
+  --dark-accent-color-1: #727272;
   --main-accent-color: #ca0000;
+  --medium-accent-color: #c5c5c5;
+  --hover-accent-color-1: #4f0069;
+  --hover-border-color-1: #e26ed2;
+  --ship-color: #241e1e;
+  --main-title-font-size: clamp(2rem, 5vw, calc(5rem + 1vw));;
 }
 
 body {
@@ -28,13 +34,57 @@ body {
 #content {
   display: flex;
   min-height: 100dvh;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   font-family: 'drius_straightregular', sans-serif;
   background-color: var(--dark-color-1);
   color: var(--main-accent-color);
 }
 
 .main-title {
-  margin: 0.25em;
-  font-size: clamp(2.5rem, 5vw, 5rem);
+  margin: 0;
+  margin-top: 0.25em;
+  font-size: var(--main-title-font-size);
+}
+
+.game {
+  display: flex;
+  align-items: center;
+  padding: calc(var(--main-title-font-size) / 2);
+}
+
+.vs-text {
+  font-size: clamp(2rem, 3vw, calc(3rem + 1vw));
+  font-family: 'drius_halftoneregular', sans-serif;
+  padding: 1em;
+}
+
+.gameboard {
+  width: min(85vw, calc(200px + 17vw));
+  height: min(85vw, calc(200px + 17vw));
+  display: grid;
+  grid-template-rows: repeat(10, 1fr);
+  grid-template-columns: repeat(10, 1fr);
+  background-color: var(--medium-accent-color);
+}
+
+.gameboard > .square {
+  border: 1px solid var(--dark-accent-color-1);
+  background-color: var(--medium-accent-color);
+}
+
+.gameboard > .square:hover {
+  border-color: var(--hover-border-color-1);
+  background-color: var(--hover-accent-color-1);
+}
+
+.gameboard > .ship {
+  border-color: var(--main-accent-color);
+  background-color: var(--ship-color);
+}
+
+@media only screen and (max-width: 1024px) {
+  .game {
+    flex-direction: column;
+  }
 }
