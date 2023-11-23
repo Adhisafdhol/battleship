@@ -41,15 +41,33 @@ const getAdjecentList = (coordinatesIndexList, board) => {
     ),
   );
 };
-const isPlacementValid = (placementIndex, coordinatesIndexList, board) => {
+
+const checkPlacementValidity = (
+  placementIndex,
+  coordinatesIndexList,
+  board,
+) => {
   const shipPlacementValidity = placementIndex.every(
     (index) => !("ship" in board[index]),
   );
+
   const adjecentListValidity = coordinatesIndexList.every(
     (index) => !("ship" in board[index]),
   );
 
   return shipPlacementValidity && adjecentListValidity;
+};
+
+const isPlacementValid = (placementIndex, coordinatesIndexList, board) => {
+  const placementIndexValidity = placementIndex.every(
+    (index) => index >= 0 && index < 100,
+  );
+
+  if (placementIndexValidity) {
+    return checkPlacementValidity(placementIndex, coordinatesIndexList, board);
+  }
+
+  return false;
 };
 
 export {

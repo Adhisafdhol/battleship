@@ -44,6 +44,26 @@ test("getAdjecentList([0], board1.board) will return [1, 10, 11]", () => {
   expect(getAdjecentList([0], board1.board)).toEqual([1, 10, 11]);
 });
 
+test("isPlacementValid will return false if it contains index that is less than zero", () => {
+  expect(
+    isPlacementValid(
+      [-1, 0, 1],
+      getAdjecentList([-1, 0, 1], board1.board),
+      board1.board,
+    ),
+  ).toBeFalsy();
+});
+
+test("isPlacementValid will return false if it contains index that is greater than or equal to 100", () => {
+  expect(
+    isPlacementValid(
+      [98, 99, 100],
+      getAdjecentList([98, 99, 100], board1.board),
+      board1.board,
+    ),
+  ).toBeFalsy();
+});
+
 test("isPlacementValid([0, 1], getAdjecentList([0, 1], board1.board), board1.board) will return true", () => {
   expect(
     isPlacementValid(
