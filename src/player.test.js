@@ -17,8 +17,10 @@ test("attack opponent board at coordinates [3, 1] hits opponent ship by 1", () =
 });
 
 test("random number will be equal and greater than 0 and less than 100", () => {
-  expect(player2.randomIndex(player1Board.board)).toBeGreaterThanOrEqual(0);
-  expect(player2.randomIndex(player1Board.board)).toBeLessThan(100);
+  expect(player2.randomIndex(player1Board.board.length)).toBeGreaterThanOrEqual(
+    0,
+  );
+  expect(player2.randomIndex(player1Board.board.length)).toBeLessThan(100);
 });
 
 test("findCoordinatesIndex([1,1]) will return 11", () => {

@@ -19,15 +19,14 @@ const AIPlayer = (name) => {
         square.coordinates[1] === coordinates[1],
     );
 
-  const randomIndex = (activeSquares) =>
-    Math.random(Math.floor(activeSquares.length));
+  const randomIndex = (length) => Math.floor(Math.random() * length);
 
   const filterBoard = (board) =>
     board.filter((square) => square.status === "free");
 
   const randomMove = (board) => {
     const activeSquares = filterBoard(board);
-    const coordinates = activeSquares[randomIndex(activeSquares)];
+    const { coordinates } = activeSquares[randomIndex(activeSquares.length)];
     return findCoordinatesIndex(coordinates, board);
   };
 
