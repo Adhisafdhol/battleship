@@ -3,7 +3,6 @@ import { randomIndex } from "./placement-logic";
 const setRandomColor = (colors, dom, style) => {
   const color = colors[randomIndex(colors.length)];
   const target = dom;
-  console.log(target, color);
   target.style[style] = `${color}`;
 };
 
