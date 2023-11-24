@@ -64,7 +64,7 @@ const setUpAIBoard = (name) => {
 
 const creatGameboardDom = (player) => {
   const boardDom = document.createElement("div");
-  boardDom.setAttribute("name", `${player.player.name}`);
+  boardDom.setAttribute("data-name", `${player.player.name}`);
   boardDom.classList.add("gameboard");
 
   player.board.board.forEach((square, index) => {
@@ -84,6 +84,10 @@ const creatGameboardDom = (player) => {
   return boardDom;
 };
 
+const updateStatusDom = (dom, status) => {
+  dom.setAttribute("data-status", status);
+};
+
 const setUpGameboardDom = (player) => creatGameboardDom(player);
 
-export { setUpGameboardDom, setUpPlayerBoard, setUpAIBoard };
+export { setUpGameboardDom, setUpPlayerBoard, setUpAIBoard, updateStatusDom };
