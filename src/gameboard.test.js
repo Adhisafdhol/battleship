@@ -78,7 +78,7 @@ test("ship One has sunk", () => {
 });
 
 test("isAllShipsSunk will return false", () => {
-  expect(currentBoard.isAllShipsSunk()).toBeFalsy();
+  expect(currentBoard.haveAllShipsSunk()).toBeFalsy();
 });
 
 test("ship Two has sunk", () => {
@@ -88,5 +88,5 @@ test("ship Two has sunk", () => {
 });
 
 test("isAllShipsSunk will return true", () => {
-  expect(currentBoard.isAllShipsSunk()).toBeTruthy();
+  expect(currentBoard.haveAllShipsSunk()).toBeTruthy();
 });

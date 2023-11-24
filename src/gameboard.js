@@ -101,7 +101,7 @@ const Gameboard = (length) => {
     }
   };
 
-  const isAllShipsSunk = () => ships.every((ship) => ship.isSunk());
+  const haveAllShipsSunk = () => ships.every((ship) => ship.isSunk());
 
   return {
     get board() {
@@ -116,7 +116,7 @@ const Gameboard = (length) => {
     getEndPoint,
     findAllCoordinatesIndex,
     receiveAttack,
-    isAllShipsSunk,
+    haveAllShipsSunk,
   };
 };
 
