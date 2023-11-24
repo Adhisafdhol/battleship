@@ -71,7 +71,7 @@ const creatGameboardDom = (player) => {
     const squareDom = document.createElement("button");
     squareDom.setAttribute(
       "data-coordinates",
-      `[${player.board.board[index].coordinates}]`,
+      `${player.board.board[index].coordinates}`,
     );
     squareDom.classList.add("square");
     if (player.board.board[index].ship) {
