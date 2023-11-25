@@ -73,6 +73,11 @@ const creatGameboardDom = (player) => {
       "data-coordinates",
       `${player.board.board[index].coordinates}`,
     );
+    squareDom.setAttribute(
+      "data-status",
+      `${player.board.board[index].status}`,
+    );
+
     squareDom.classList.add("square");
     if (player.board.board[index].ship) {
       squareDom.classList.add("ship");
