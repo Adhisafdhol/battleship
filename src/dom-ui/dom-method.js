@@ -1,12 +1,18 @@
 const createElWithClassAndText = (type = "div", className = "", text = "") => {
   const el = document.createElement(type);
-  el.textContent = text;
-
   if (className) {
     el.classList.add(className);
   }
 
+  el.textContent = text;
+
   return el;
 };
 
-export default createElWithClassAndText;
+const addAttributesToEl = (dom, atrNameArr, atrKeyArr) => {
+  atrNameArr.forEach((atrName, index) => {
+    dom.setAttribute(atrName, atrKeyArr[index]);
+  });
+};
+
+export { createElWithClassAndText, addAttributesToEl };
