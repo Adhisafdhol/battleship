@@ -1,4 +1,4 @@
-import { randomIndex } from "./placement-logic";
+import { randomIndex } from "../placement-logic";
 
 const setRandomColor = (colors, dom, style) => {
   const color = colors[randomIndex(colors.length)];
