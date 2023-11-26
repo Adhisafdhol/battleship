@@ -29,17 +29,18 @@ const createGameboardRowDom = (rowDom, rowArr) => {
 
 const createRowDom = (rowDom, rowArr) => {
   rowArr.forEach((item) => {
-    const dom = createElWithClassAndText("td", "", item);
+    const dom = createElWithClassAndText("th", "", item);
+    dom.setAttribute("scope", "column");
     rowDom.appendChild(dom);
   });
 };
 
 const createColumnHeader = () => {
-  const th = document.createElement("tr");
-  th.appendChild(createElWithClassAndText("td"));
-  createRowDom(th, ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]);
+  const row = document.createElement("tr");
+  row.appendChild(createElWithClassAndText("td"));
+  createRowDom(row, ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]);
 
-  return th;
+  return row;
 };
 
 const createGameboardTable = (player) => {
@@ -49,8 +50,8 @@ const createGameboardTable = (player) => {
   const rows = createRowsFromBoard(player.board.board, 10);
   rows.forEach((row, index) => {
     const rowDom = document.createElement("tr");
-    const rowHead = createElWithClassAndText("td", "", index + 1);
-
+    const rowHead = createElWithClassAndText("th", "", index + 1);
+    rowHead.setAttribute("scope", "row");
     rowDom.appendChild(rowHead);
     createGameboardRowDom(rowDom, row);
     boardDom.appendChild(rowDom);
