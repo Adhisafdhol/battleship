@@ -16,6 +16,15 @@
 
 }
 
+@font-face {
+  font-family: 'luxi_monoregular';
+  src: url('./fonts/luxi-mono/luximr-webfont.woff2') format('woff2'),
+    url('./fonts/luxi-mono/luximr-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
 :root {
   --dark-color-1: #000000;
   --dark-accent-color-1: #727272;
@@ -70,6 +79,7 @@ body {
 }
 
 .gameboard {
+  font-family: 'luxi-monoregular', sans-serif;
   border-collapse: collapse;
   width: min(85vw, calc(200px + 17vw));
   height: min(85vw, calc(200px + 17vw));
@@ -97,6 +107,7 @@ div.gameboard {
 .gameboard tr {
   height: 100% / 11;
 }
+
 .gameboard  td {
   width: calc(100% / 11);
   font-size: 0.75rem;
