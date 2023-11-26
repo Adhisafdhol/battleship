@@ -16,15 +16,6 @@ const specification = {
 const setUpPlayerBoard = () => {
   const player = Player("player1");
   const board = Gameboard(10);
-  board.placeShip([0, 0], Ship(4), "row");
-  board.placeShip([2, 0], Ship(4), "column");
-  board.placeShip([1, 7], Ship(3), "column");
-  board.placeShip([2, 2], Ship(3), "row");
-  board.placeShip([6, 3], Ship(2), "column");
-  board.placeShip([5, 5], Ship(2), "row");
-  board.placeShip([7, 8], Ship(1), "row");
-  board.placeShip([7, 8], Ship(1), "row");
-
   return { player, board };
 };
 
@@ -41,7 +32,6 @@ const populateBoard = (board, spec) => {
       ship,
       orientation,
     );
-
     const adjecentList = getAdjecentList(coordinatesIndexList, board.board);
 
     if (isPlacementValid(coordinatesIndexList, adjecentList, board.board)) {
@@ -62,7 +52,7 @@ const setUpAIBoard = (name) => {
   return { player, board };
 };
 
-const creatGameboardDom = (player) => {
+const createGameboardDom = (player) => {
   const boardDom = document.createElement("div");
   boardDom.setAttribute("data-name", `${player.player.name}`);
   boardDom.classList.add("gameboard");
@@ -93,6 +83,6 @@ const updateStatusDom = (dom, status) => {
   dom.setAttribute("data-status", status);
 };
 
-const setUpGameboardDom = (player) => creatGameboardDom(player);
+const setUpGameboardDom = (player) => createGameboardDom(player);
 
 export { setUpGameboardDom, setUpPlayerBoard, setUpAIBoard, updateStatusDom };
