@@ -59,11 +59,37 @@ const createGameboardTable = (player) => {
   return boardDom;
 };
 
+const createGreetingDom = () => {
+  const greeting = createElWithClassAndText(
+    "h2",
+    "greeting",
+    "It's time to place your battleships Commander!",
+  );
+
+  return greeting;
+};
+
 const shipPlacementDom = () => {
   const lobby = createElWithClassAndText("div", "harbor");
   const player = setUpPlayerBoard("player1");
+  const greeting = createGreetingDom();
+  const lobbyContainer = createElWithClassAndText("div", "lobby-container");
+  const mainLobbyContainer = createElWithClassAndText(
+    "div",
+    "main-lobby-container",
+  );
+  const gameboardContainer = createElWithClassAndText(
+    "div",
+    "gameboard-container",
+  );
+
   const playerDom = createGameboardTable(player);
-  lobby.appendChild(playerDom);
+  mainLobbyContainer.appendChild(greeting);
+  gameboardContainer.appendChild(playerDom);
+  mainLobbyContainer.appendChild(gameboardContainer);
+  lobbyContainer.appendChild(mainLobbyContainer);
+  lobby.appendChild(lobbyContainer);
+
   return lobby;
 };
 
