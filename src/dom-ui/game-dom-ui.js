@@ -1,6 +1,6 @@
 import { updateStatusDom, setUpGameboardDom } from "./dom-ui";
 import { setMultipleBorderColor, setRandomColor } from "./color-changing";
-import createElWithClassAndText from "./dom-method";
+import { createElWithClassAndText } from "./dom-method";
 
 const colors = [
   "#65dc98",
