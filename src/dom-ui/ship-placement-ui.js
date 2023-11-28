@@ -1,5 +1,11 @@
 import { addAttributesToEl, createElWithClassAndText } from "./dom-method";
 import { setUpPlayerBoard } from "./dom-ui";
+import {
+  dragoverHandler,
+  dragstartHandler,
+  dropHandler,
+} from "./drag-and-drop";
+import Ship from "../ship";
 
 const createRowsFromBoard = (board, rowLength) => {
   const rows = [];
@@ -23,6 +29,8 @@ const createGameboardRowDom = (rowDom, rowArr) => {
       ["data-coordinates", "data-status"],
       [`${square.coordinates}`, `${square.status}`],
     );
+    squareDom.addEventListener("drop", dropHandler);
+    squareDom.addEventListener("dragover", dragoverHandler);
     rowDom.appendChild(squareDom);
   });
 };
@@ -69,9 +77,50 @@ const createGreetingDom = () => {
   return greeting;
 };
 
+const styleShipByItsLength = (dom, length, orientation) => {
+  const el = dom;
+  if (orientation === "row") {
+    el.style.width = `calc(${length * 100}% + ${length - 1}px)`;
+  } else {
+    el.style.height = `calc(${length * 100}% + ${length - 1}px)`;
+  }
+};
+
+const createDraggableItem = (index, orientation, length, head) => {
+  const draggable = createElWithClassAndText("div", "draggable");
+  addAttributesToEl(
+    draggable,
+    ["id", "draggable", "data-orientation", "data-length", "data-head"],
+    [`${index}`, true, orientation, `${length}`, `${head}`],
+  );
+
+  styleShipByItsLength(draggable, length, orientation);
+  draggable.addEventListener("dragstart", dragstartHandler);
+
+  return draggable;
+};
+
+const createShipDom = (board, boardDom) => {
+  board.ships.forEach((ship, index) => {
+    const dom = boardDom.querySelector(
+      `[data-coordinates="${ship.coordinates}"]`,
+    );
+    dom.appendChild(
+      createDraggableItem(
+        index,
+        ship.orientation,
+        ship.ship.length,
+        ship.coordinates,
+      ),
+    );
+  });
+};
+
 const shipPlacementDom = () => {
   const lobby = createElWithClassAndText("div", "harbor");
   const player = setUpPlayerBoard("player1");
+  player.board.placeShip([1, 2], Ship(3), "row");
+  player.board.placeShip([6, 8], Ship(4), "column");
   const greeting = createGreetingDom();
   const lobbyContainer = createElWithClassAndText("div", "lobby-container");
   const mainLobbyContainer = createElWithClassAndText(
@@ -84,6 +133,7 @@ const shipPlacementDom = () => {
   );
 
   const playerDom = createGameboardTable(player);
+  createShipDom(player.board, playerDom);
   mainLobbyContainer.appendChild(greeting);
   gameboardContainer.appendChild(playerDom);
   mainLobbyContainer.appendChild(gameboardContainer);
