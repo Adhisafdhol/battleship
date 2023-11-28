@@ -26,8 +26,8 @@ const createGameboardRowDom = (rowDom, rowArr) => {
     const squareDom = createElWithClassAndText("td", "square");
     addAttributesToEl(
       squareDom,
-      ["data-coordinates", "data-status"],
-      [`${square.coordinates}`, `${square.status}`],
+      ["data-coordinates", "data-info"],
+      [`${square.coordinates}`, "free"],
     );
     squareDom.addEventListener("drop", dropHandler);
     squareDom.addEventListener("dragover", dragoverHandler);
@@ -86,6 +86,21 @@ const styleShipByItsLength = (dom, length, orientation) => {
   }
 };
 
+const setDataInfoAttr = (ship, board, boardDom) => {
+  const { coordinates } = ship;
+  const { orientation } = ship;
+  const coordinatesList = board.getAllCoordinatesListByIndex(
+    coordinates,
+    ship.ship,
+    orientation,
+  );
+
+  coordinatesList.forEach((coord) => {
+    const dom = boardDom.querySelector(`[data-coordinates="${coord}"]`);
+    addAttributesToEl(dom, ["data-info"], ["occupied"]);
+  });
+};
+
 const createDraggableItem = (index, orientation, length, head) => {
   const draggable = createElWithClassAndText("div", "draggable");
   addAttributesToEl(
@@ -105,6 +120,7 @@ const createShipDom = (board, boardDom) => {
     const dom = boardDom.querySelector(
       `[data-coordinates="${ship.coordinates}"]`,
     );
+    setDataInfoAttr(ship, board, boardDom);
     dom.appendChild(
       createDraggableItem(
         index,
