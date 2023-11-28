@@ -61,6 +61,11 @@ const Gameboard = (length) => {
     return coordinatesList;
   };
 
+  const getAllCoordinatesListByIndex = (coordinates, obj, orientation) => {
+    const indexList = findAllCoordinatesIndex(coordinates, obj, orientation);
+    return indexList.map((index) => board[index].coordinates);
+  };
+
   const checkAllSquare = (coordinatesList, key) =>
     coordinatesList.every((coordinates) => !(key in board[coordinates]));
 
@@ -115,6 +120,7 @@ const Gameboard = (length) => {
     getCoordinatesIndex,
     getEndPoint,
     findAllCoordinatesIndex,
+    getAllCoordinatesListByIndex,
     receiveAttack,
     haveAllShipsSunk,
   };
