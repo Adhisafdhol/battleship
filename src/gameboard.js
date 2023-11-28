@@ -64,13 +64,13 @@ const Gameboard = (length) => {
   const checkAllSquare = (coordinatesList, key) =>
     coordinatesList.every((coordinates) => !(key in board[coordinates]));
 
-  const addShipToArr = (ship) => {
-    ships.push(ship);
+  const addShipToArr = (ship, orientation, coordinates) => {
+    ships.push({ ship, orientation, coordinates });
   };
 
-  const placeShipOnBoard = (coordinatesList, obj) => {
+  const placeShipOnBoard = (coordinatesList, obj, orientation, coordinates) => {
     if (checkAllSquare(coordinatesList, "ship")) {
-      addShipToArr(obj);
+      addShipToArr(obj, orientation, coordinates);
       coordinatesList.forEach((index) => {
         board[index].ship = obj;
       });
@@ -86,7 +86,7 @@ const Gameboard = (length) => {
         obj,
         orientation,
       );
-      placeShipOnBoard(coordinatesList, obj);
+      placeShipOnBoard(coordinatesList, obj, orientation, coordinates);
     }
   };
 
@@ -101,7 +101,7 @@ const Gameboard = (length) => {
     }
   };
 
-  const haveAllShipsSunk = () => ships.every((ship) => ship.isSunk());
+  const haveAllShipsSunk = () => ships.every((obj) => obj.ship.isSunk());
 
   return {
     get board() {
