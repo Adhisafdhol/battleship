@@ -6,6 +6,7 @@ import {
   dropHandler,
 } from "./drag-and-drop";
 import Ship from "../ship";
+import { changeOrientation } from "./ship-orientation-control";
 
 const createRowsFromBoard = (board, rowLength) => {
   const rows = [];
@@ -79,6 +80,7 @@ const createGreetingDom = () => {
 
 const styleShipByItsLength = (dom, length, orientation) => {
   const el = dom;
+
   if (orientation === "row") {
     el.style.width = `calc(${length * 100}% + ${length - 1}px)`;
   } else {
@@ -111,6 +113,7 @@ const createDraggableItem = (index, orientation, length, head) => {
 
   styleShipByItsLength(draggable, length, orientation);
   draggable.addEventListener("dragstart", dragstartHandler);
+  draggable.addEventListener("dblclick", changeOrientation);
 
   return draggable;
 };
@@ -137,6 +140,7 @@ const shipPlacementDom = () => {
   const player = setUpPlayerBoard("player1");
   player.board.placeShip([1, 2], Ship(3), "row");
   player.board.placeShip([6, 8], Ship(4), "column");
+  player.board.placeShip([4, 4], Ship(2), "row");
   const greeting = createGreetingDom();
   const lobbyContainer = createElWithClassAndText("div", "lobby-container");
   const mainLobbyContainer = createElWithClassAndText(

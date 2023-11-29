@@ -1,3 +1,5 @@
+import { isAdjecentDomFree } from "./ship-orientation-control";
+
 let dragStartItem;
 
 const getAttributeArr = (dom, attr) =>
@@ -101,17 +103,30 @@ const addDataInfoAttr = (coordinates, orientation, length) => {
   });
 };
 
-const setNewDataInfoCoordinates = (
+const checkPlacementDomValidity = (
+  target,
+  currentPoint,
+  dropPoint,
   prevCoordinates,
   newCoordinates,
   orientation,
   length,
 ) => {
-  removeDataInfoAttr(prevCoordinates, orientation, length);
-  addDataInfoAttr(newCoordinates, orientation, length);
+  if (
+    !isCoordinatesValid(newCoordinates, orientation, length) &&
+    isCoordinatesFree(newCoordinates, orientation, length) &&
+    isAdjecentDomFree(newCoordinates, orientation, length)
+  ) {
+    addDataInfoAttr(newCoordinates, orientation, length);
+    dropPoint.appendChild(target);
+    target.setAttribute("data-head", `${newCoordinates}`);
+  } else {
+    currentPoint.appendChild(target);
+    addDataInfoAttr(prevCoordinates, orientation, length);
+  }
 };
 
-const appendChildToTarget = (dropPoint, child, correctCoordinates, ship) => {
+const appendChildToTarget = (dropPoint, target, correctCoordinates, ship) => {
   const { coordinates } = ship;
   const currentPoint = document.querySelector(
     `[data-coordinates="${coordinates}"]`,
@@ -119,20 +134,15 @@ const appendChildToTarget = (dropPoint, child, correctCoordinates, ship) => {
   const { orientation } = ship;
   const { length } = ship;
 
-  if (!isCoordinatesValid(correctCoordinates, orientation, length)) {
-    if (isCoordinatesFree(correctCoordinates, orientation, length)) {
-      setNewDataInfoCoordinates(
-        coordinates,
-        correctCoordinates,
-        orientation,
-        length,
-      );
-      dropPoint.appendChild(child);
-      child.setAttribute("data-head", `${correctCoordinates}`);
-    }
-  } else {
-    currentPoint.appendChild(child);
-  }
+  checkPlacementDomValidity(
+    target,
+    currentPoint,
+    dropPoint,
+    coordinates,
+    correctCoordinates,
+    orientation,
+    length,
+  );
 };
 
 const createShipObjData = (coordinates, orientation, length) => ({
@@ -189,4 +199,14 @@ function dropHandler(ev) {
   }
 }
 
-export { dragstartHandler, dragoverHandler, dropHandler };
+export {
+  dragstartHandler,
+  dragoverHandler,
+  dropHandler,
+  getAttributeArr,
+  removeDataInfoAttr,
+  addDataInfoAttr,
+  isCoordinatesValid,
+  isCoordinatesFree,
+  getCoordinatesList,
+};
