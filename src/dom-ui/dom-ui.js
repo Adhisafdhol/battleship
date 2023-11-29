@@ -8,24 +8,32 @@ import {
   isPlacementValid,
 } from "../placement-logic";
 
-const specification = {
-  numberOfShips: 9,
-  length: 5,
-};
-
 const setUpPlayerBoard = () => {
   const player = Player("player1");
   const board = Gameboard(10);
   return { player, board };
 };
 
-const populateBoard = (board, spec) => {
-  let successPlacement = 0;
-  let { length } = spec;
+const populateBoard = (board) => {
+  const spec = {
+    ship: [
+      Ship(4),
+      Ship(4),
+      Ship(3),
+      Ship(3),
+      Ship(3),
+      Ship(2),
+      Ship(2),
+      Ship(1),
+      Ship(1),
+      Ship(1),
+    ],
+  };
 
-  while (successPlacement < spec.numberOfShips) {
+  let successPlacement = 0;
+  while (successPlacement < spec.ship.length) {
     const index = randomIndex(board.board.length);
-    const ship = Ship(length);
+    const ship = spec.ship[successPlacement];
     const orientation = randomOrientation();
     const coordinatesIndexList = board.findAllCoordinatesIndex(
       board.board[index].coordinates,
@@ -37,9 +45,6 @@ const populateBoard = (board, spec) => {
     if (isPlacementValid(coordinatesIndexList, adjecentList, board.board)) {
       board.placeShip(board.board[index].coordinates, ship, orientation);
       successPlacement += 1;
-      if (successPlacement % 2 === 0) {
-        length -= 1;
-      }
     }
   }
 };
@@ -47,7 +52,7 @@ const populateBoard = (board, spec) => {
 const setUpAIBoard = (name) => {
   const player = AIPlayer(name);
   const board = Gameboard(10);
-  populateBoard(board, specification);
+  populateBoard(board);
 
   return { player, board };
 };
@@ -85,4 +90,10 @@ const updateStatusDom = (dom, status) => {
 
 const setUpGameboardDom = (player) => createGameboardDom(player);
 
-export { setUpGameboardDom, setUpPlayerBoard, setUpAIBoard, updateStatusDom };
+export {
+  setUpGameboardDom,
+  setUpPlayerBoard,
+  setUpAIBoard,
+  updateStatusDom,
+  populateBoard,
+};
