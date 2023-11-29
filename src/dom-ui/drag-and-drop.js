@@ -1,12 +1,44 @@
 let dragStartItem;
 
+const getAttributeArr = (dom, attr) =>
+  dom
+    .getAttribute(attr)
+    .split(",")
+    .map((item) => Number(item));
+
+const getCoordinatesList = (coordinates, orientation, length) => {
+  const coordinatesList = [coordinates];
+  if (orientation === "row") {
+    for (let i = 1; i < length; i += 1) {
+      coordinatesList.push([coordinates[0], coordinates[1] + i]);
+    }
+  } else {
+    for (let i = 1; i < length; i += 1) {
+      coordinatesList.push([coordinates[0] + i, coordinates[1]]);
+    }
+  }
+
+  return coordinatesList;
+};
+
+const removeDataInfoAttr = (coordinates, orientation, length) => {
+  const coordinatesList = getCoordinatesList(coordinates, orientation, length);
+  coordinatesList.forEach((coord) => {
+    const dom = document.querySelector(`[data-coordinates="${coord}"]`);
+    dom.setAttribute("data-info", "free");
+  });
+};
+
 function dragstartHandler(ev) {
-  // Add the target element's id to the data transfer object
   const child = ev.target;
   const parent = ev.target.parentElement;
+  const coordinates = getAttributeArr(parent, "data-coordinates");
+  const orientation = child.getAttribute("data-orientation");
+  const length = Number(child.getAttribute("data-length"));
   ev.target.parentElement.removeChild(child);
   dragStartItem = document.elementFromPoint(ev.clientX, ev.clientY);
   parent.appendChild(child);
+  removeDataInfoAttr(coordinates, orientation, length);
   ev.dataTransfer.setData("text/plain", ev.target.id);
 }
 
@@ -27,29 +59,56 @@ const getCorrectDropCoordinates = (
 ) => {
   if (orientation === "row") {
     const newCoord = [
-      Number(dropCoordinates[0]),
-      Number(dropCoordinates[1]) - checkDiff(data1[1], data2[1]),
+      dropCoordinates[0],
+      dropCoordinates[1] - checkDiff(data1[1], data2[1]),
     ];
     return newCoord;
   }
 
   const newCoord = [
-    Number(dropCoordinates[0]) - checkDiff(data1[0], data2[0]),
-    Number(dropCoordinates[1]),
+    dropCoordinates[0] - checkDiff(data1[0], data2[0]),
+    dropCoordinates[1],
   ];
 
   return newCoord;
 };
 
 const isCoordinatesValid = (coordinates, orientation, length) => {
-  const row = Number(coordinates[0]) + Number(length) - 1;
-  const column = Number(coordinates[1]) + Number(length) - 1;
+  const row = coordinates[0] + length - 1;
+  const column = coordinates[1] + length - 1;
 
   if (orientation === "row") {
     return column > 9;
   }
 
   return row > 9;
+};
+
+const isCoordinatesFree = (coordinates, orientation, length) => {
+  const coordinatesList = getCoordinatesList(coordinates, orientation, length);
+  return coordinatesList.every((coord) => {
+    const dom = document.querySelector(`[data-coordinates="${coord}"]`);
+    return dom.getAttribute("data-info") === "free";
+  });
+};
+
+const addDataInfoAttr = (coordinates, orientation, length) => {
+  const coordinatesList = getCoordinatesList(coordinates, orientation, length);
+
+  coordinatesList.forEach((coord) => {
+    const dom = document.querySelector(`[data-coordinates="${coord}"]`);
+    dom.setAttribute("data-info", "occupied");
+  });
+};
+
+const setNewDataInfoCoordinates = (
+  prevCoordinates,
+  newCoordinates,
+  orientation,
+  length,
+) => {
+  removeDataInfoAttr(prevCoordinates, orientation, length);
+  addDataInfoAttr(newCoordinates, orientation, length);
 };
 
 const appendChildToTarget = (dropPoint, child, correctCoordinates, ship) => {
@@ -61,14 +120,20 @@ const appendChildToTarget = (dropPoint, child, correctCoordinates, ship) => {
   const { length } = ship;
 
   if (!isCoordinatesValid(correctCoordinates, orientation, length)) {
-    dropPoint.appendChild(child);
-    child.setAttribute("data-head", `${correctCoordinates}`);
+    if (isCoordinatesFree(correctCoordinates, orientation, length)) {
+      setNewDataInfoCoordinates(
+        coordinates,
+        correctCoordinates,
+        orientation,
+        length,
+      );
+      dropPoint.appendChild(child);
+      child.setAttribute("data-head", `${correctCoordinates}`);
+    }
   } else {
     currentPoint.appendChild(child);
   }
 };
-
-const getAttributeArr = (dom, attr) => dom.getAttribute(attr).split(",");
 
 const createShipObjData = (coordinates, orientation, length) => ({
   coordinates,
@@ -79,7 +144,7 @@ const createShipObjData = (coordinates, orientation, length) => ({
 const dropShipOnNewCoordinates = (dropCoordinates, droppedItem) => {
   const dragItemCoordinates = getAttributeArr(droppedItem, "data-head");
   const dragItemOrientation = droppedItem.getAttribute("data-orientation");
-  const dragItemLength = getAttributeArr(droppedItem, "data-length");
+  const dragItemLength = Number(getAttributeArr(droppedItem, "data-length"));
   const ship = createShipObjData(
     dragItemCoordinates,
     dragItemOrientation,
@@ -107,16 +172,17 @@ const dropShipOnNewCoordinates = (dropCoordinates, droppedItem) => {
 
 function dropHandler(ev) {
   ev.preventDefault();
-  // Get the id of the target and add the moved element to the target's DOM
   const data = ev.dataTransfer.getData("text/plain");
   const droppedItem = document.getElementById(`${data}`);
 
   if (ev.target.className === "draggable") {
-    const child = ev.target;
-    ev.target.parentElement.removeChild(child);
-    const target = document.elementFromPoint(ev.clientX, ev.clientY);
-    const dropCoordinates = getAttributeArr(target, "data-coordinates");
-    dropShipOnNewCoordinates(dropCoordinates, droppedItem);
+    if (ev.target.id === data) {
+      const child = ev.target;
+      ev.target.parentElement.removeChild(child);
+      const target = document.elementFromPoint(ev.clientX, ev.clientY);
+      const dropCoordinates = getAttributeArr(target, "data-coordinates");
+      dropShipOnNewCoordinates(dropCoordinates, droppedItem);
+    }
   } else {
     const dropCoordinates = getAttributeArr(ev.target, "data-coordinates");
     dropShipOnNewCoordinates(dropCoordinates, droppedItem);
