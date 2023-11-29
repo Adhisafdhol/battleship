@@ -4,9 +4,8 @@ import {
   isCoordinatesFree,
   addDataInfoAttr,
   isCoordinatesValid,
-  getCoordinatesList,
+  isAdjecentDomFree,
 } from "./drag-and-drop";
-import checkDomPlacementValidity from "./placement-dom-logic";
 
 const geOppositeOrientation = (orientation) => {
   if (orientation === "row") {
@@ -25,11 +24,6 @@ const changeShipOrientationStyle = (target, orientation, length) => {
     dom.style.height = `calc(${length * 100}% + ${length - 1}px)`;
     dom.style.removeProperty("width");
   }
-};
-
-const isAdjecentDomFree = (coordinates, orientation, length) => {
-  const coordinatesList = getCoordinatesList(coordinates, orientation, length);
-  return checkDomPlacementValidity(coordinatesList);
 };
 
 const changeOrientationDom = (target, coordinates, orientation, length) => {
@@ -84,4 +78,4 @@ const changeOrientation = (ev) => {
   }
 };
 
-export { changeOrientation, isAdjecentDomFree };
+export default changeOrientation;

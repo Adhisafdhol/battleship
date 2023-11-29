@@ -1,4 +1,4 @@
-import { isAdjecentDomFree } from "./ship-orientation-control";
+import checkDomPlacementValidity from "./placement-dom-logic";
 
 let dragStartItem;
 
@@ -21,6 +21,11 @@ const getCoordinatesList = (coordinates, orientation, length) => {
   }
 
   return coordinatesList;
+};
+
+const isAdjecentDomFree = (coordinates, orientation, length) => {
+  const coordinatesList = getCoordinatesList(coordinates, orientation, length);
+  return checkDomPlacementValidity(coordinatesList);
 };
 
 const removeDataInfoAttr = (coordinates, orientation, length) => {
@@ -209,4 +214,5 @@ export {
   isCoordinatesValid,
   isCoordinatesFree,
   getCoordinatesList,
+  isAdjecentDomFree
 };

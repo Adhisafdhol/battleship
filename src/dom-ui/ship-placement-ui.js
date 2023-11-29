@@ -1,11 +1,10 @@
 import { addAttributesToEl, createElWithClassAndText } from "./dom-method";
-import { populateBoard, setUpPlayerBoard } from "./dom-ui";
 import {
   dragoverHandler,
   dragstartHandler,
   dropHandler,
 } from "./drag-and-drop";
-import { changeOrientation } from "./ship-orientation-control";
+import changeOrientation from "./ship-orientation-control";
 
 const createRowsFromBoard = (board, rowLength) => {
   const rows = [];
