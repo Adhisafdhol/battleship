@@ -12,6 +12,10 @@ const createGreetingDom = () => {
   return greeting;
 };
 
+const createStartGameBtn = () => {
+  const startGameBtn = createElWithClassAndText("button", "start-btn", "Start");
+  return startGameBtn;
+};
 const createLobbyDom = () => {
   const lobby = createElWithClassAndText("div", "harbor");
   const player = setUpPlayerBoard("player1");
@@ -29,9 +33,17 @@ const createLobbyDom = () => {
 
   const playerDom = createGameboardTable(player);
   createShipDom(player.board, playerDom);
+
+  const startBtnContainer = createElWithClassAndText(
+    "div",
+    "start-btn-container",
+  );
+  const startGameBtn = createStartGameBtn();
+  startBtnContainer.appendChild(startGameBtn);
   mainLobbyContainer.appendChild(greeting);
   gameboardContainer.appendChild(playerDom);
   mainLobbyContainer.appendChild(gameboardContainer);
+  mainLobbyContainer.appendChild(startBtnContainer);
   lobbyContainer.appendChild(mainLobbyContainer);
   lobby.appendChild(lobbyContainer);
 
