@@ -1,5 +1,5 @@
 import { addAttributesToEl, createElWithClassAndText } from "./dom-method";
-import { setUpPlayerBoard } from "./dom-ui";
+import { populateBoard, setUpPlayerBoard } from "./dom-ui";
 import {
   dragoverHandler,
   dragstartHandler,
@@ -138,9 +138,7 @@ const createShipDom = (board, boardDom) => {
 const shipPlacementDom = () => {
   const lobby = createElWithClassAndText("div", "harbor");
   const player = setUpPlayerBoard("player1");
-  player.board.placeShip([1, 2], Ship(3), "row");
-  player.board.placeShip([6, 8], Ship(4), "column");
-  player.board.placeShip([4, 4], Ship(2), "row");
+  populateBoard(player.board);
   const greeting = createGreetingDom();
   const lobbyContainer = createElWithClassAndText("div", "lobby-container");
   const mainLobbyContainer = createElWithClassAndText(
