@@ -49,7 +49,7 @@ const startGame = () => {
   const player1 = setUpPlayerBoard("player1");
   const { board } = player1;
   const ships = getAllShipsData();
-  const player2 = setUpAIBoard("AI");
+  const player2 = setUpAIBoard("player2");
 
   ships.forEach((ship) => {
     board.placeShip(ship.coordinates, Ship(ship.length), ship.orientation);

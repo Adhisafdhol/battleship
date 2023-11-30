@@ -179,7 +179,7 @@ div.gameboard {
   background-color: var(--medium-accent-color);
 }
 
-.gameboard > .square:hover {
+.gameboard[data-player-type="ai"] > .square:not([data-status="targeted"]):hover {
   border-color: var(--hover-border-color-1);
   background-color: var(--hover-accent-color-1);
 }
@@ -196,11 +196,6 @@ div.gameboard {
 
 .gameboard > .square[data-status="targeted"] {
   background-color: var(--dark-accent-color-1);
-}
-
-.gameboard> .square[data-status="targeted"]:hover {
-  background-color: none;
-  border-color: none;
 }
 
 .gameboard> .ship[data-status="targeted"] {

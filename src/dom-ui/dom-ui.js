@@ -7,11 +7,13 @@ import {
   getAdjecentList,
   isPlacementValid,
 } from "../placement-logic";
+import { addAttributesToEl, createElWithClassAndText } from "./dom-method";
 
-const setUpPlayerBoard = () => {
-  const player = Player("player1");
+const setUpPlayerBoard = (playerName) => {
+  const player = Player(playerName);
   const board = Gameboard(10);
-  return { player, board };
+  const type = "player";
+  return { player, board, type };
 };
 
 const populateBoard = (board) => {
@@ -49,18 +51,21 @@ const populateBoard = (board) => {
   }
 };
 
-const setUpAIBoard = (name) => {
-  const player = AIPlayer(name);
+const setUpAIBoard = (AIName) => {
+  const player = AIPlayer(AIName);
   const board = Gameboard(10);
   populateBoard(board);
-
-  return { player, board };
+  const type = "ai";
+  return { player, board, type };
 };
 
 const createGameboardDom = (player) => {
-  const boardDom = document.createElement("div");
-  boardDom.setAttribute("data-name", `${player.player.name}`);
-  boardDom.classList.add("gameboard");
+  const boardDom = createElWithClassAndText("div", "gameboard");
+  addAttributesToEl(
+    boardDom,
+    ["data-name", "data-player-type"],
+    [`${player.player.name}`, player.type],
+  );
 
   player.board.board.forEach((square, index) => {
     const squareDom = document.createElement("button");
@@ -88,7 +93,7 @@ const updateStatusDom = (dom, status) => {
   dom.setAttribute("data-status", status);
 };
 
-const setUpGameboardDom = (player) => createGameboardDom(player);
+const setUpGameboardDom = (player, type) => createGameboardDom(player, type);
 
 export {
   setUpGameboardDom,
