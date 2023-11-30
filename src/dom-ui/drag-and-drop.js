@@ -1,4 +1,4 @@
-import checkDomPlacementValidity from "./placement-dom-logic";
+import { checkDomPlacementValidity } from "./placement-dom-logic";
 
 let dragStartItem;
 
@@ -214,5 +214,5 @@ export {
   isCoordinatesValid,
   isCoordinatesFree,
   getCoordinatesList,
-  isAdjecentDomFree
+  isAdjecentDomFree,
 };

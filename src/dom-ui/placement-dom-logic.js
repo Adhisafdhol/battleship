@@ -62,4 +62,4 @@ const checkDomPlacementValidity = (coordinatesList) => {
   });
 };
 
-export default checkDomPlacementValidity;
+export { checkDomPlacementValidity, removeDuplicateArr, filterAndSortArr };
