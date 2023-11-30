@@ -98,4 +98,4 @@ const createLobbyDom = () => {
   return lobby;
 };
 
-export { createLobbyDom };
+export default createLobbyDom;
