@@ -79,7 +79,7 @@ const createGameboardDom = (player) => {
     );
 
     squareDom.classList.add("square");
-    if (player.board.board[index].ship) {
+    if (player.board.board[index].ship && player.type === "player") {
       squareDom.classList.add("ship");
     }
 

@@ -38,7 +38,16 @@ const waitForDomUpdate = (dom, keyName, key) =>
     }
   });
 
+const checkAIShipCoordinates = (dom, coordinates, player, opponent) => {
+  const square = opponent.board.getCoordinates(coordinates);
+  if (player.type === "player" && "ship" in square) {
+    console.log(square);
+    dom.classList.add("ship");
+  }
+};
+
 const attackOpponentBoard = (dom, coordinates, player, opponent) => {
+  checkAIShipCoordinates(dom, coordinates, player, opponent);
   player.player.attack(coordinates, opponent.board, "receiveAttack");
   updateStatusDom(dom, opponent.board.getCoordinates(coordinates).status);
   setMultipleBorderColor(colors, dom);
