@@ -34,7 +34,7 @@
   --hover-accent-color-1: #4f0069;
   --hover-border-color-1: #e26ed2;
   --ship-color: #241e1e;
-  --main-title-font-size: clamp(2rem, calc(1.5vw + 1.5vh), calc(5rem + calc(0.5vw + 0.5vw)));
+  --main-title-font-size: clamp(1.5rem, calc(1rem + calc(1.5vw + 1.5vh)), calc(5rem + calc(0.5vw + 0.5vw)));
   --secondary-header-font-size: clamp(1.25rem, calc(1vw + 1vh), calc(2rem + calc(1vw + 1vw)));
   --medium-small-font: clamp(0.75rem, calc(1rem + calc(0.5vw + 0.5vh)), calc(2rem + calc(1vw + 1vh)))
 }
@@ -163,8 +163,8 @@ body {
 .gameboard {
   font-family: 'luxi-monoregular', sans-serif;
   border-collapse: collapse;
-  width: min(85vw, calc(200px + 17vw));
-  height: min(85vw, calc(200px + 17vw));
+  width: min(85vw, calc(150px + calc(15vw + 5vh)));
+  height: min(85vw, calc(150px + calc(15vw + 5vh)));
   background-color: var(--medium-accent-color);
 }
 
