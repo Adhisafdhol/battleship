@@ -7,7 +7,8 @@
     "test": "jest",
     "watch": "jest --watchAll",
     "start": "webpack serve --open",
-    "build": "webpack"
+    "build": "webpack",
+    "page": "git subtree push --prefix dist origin gh-pages"
   },
   "repository": {
     "type": "git",
