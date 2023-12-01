@@ -2,6 +2,7 @@ import { updateStatusDom, setUpGameboardDom } from "./dom-ui";
 import { setMultipleBorderColor, setRandomColor } from "./color-changing";
 import { createElWithClassAndText } from "./dom-method";
 import aiMakeAMove from "../ai-smart-turn";
+import { createWinnerDom } from "./lobby-ui";
 
 const colors = [
   "#65dc98",
@@ -14,10 +15,12 @@ const colors = [
 ];
 
 const announceWinner = (player1, player2) => {
+  const content = document.getElementById("content");
+
   if (player1.board.haveAllShipsSunk()) {
-    console.log(`${player2.player.name.toUpperCase()} WON!`);
+    content.appendChild(createWinnerDom(player2.player.name));
   } else {
-    console.log(`${player1.player.name.toUpperCase()} WON!`);
+    content.appendChild(createWinnerDom(player1.player.name));
   }
 };
 

@@ -35,6 +35,20 @@ const removeLobby = (parentDom) => {
   }
 };
 
+const removeGameDom = (parentDom) => {
+  const game = document.querySelector(".game");
+  if (game) {
+    parentDom.removeChild(game);
+  }
+};
+
+const removePopUp = (parentDom) => {
+  const popUp = document.querySelector(".winner-container");
+  if (popUp) {
+    parentDom.removeChild(popUp);
+  }
+};
+
 const appendGameDom = (parentDom, dom) => {
   const gameDom = document.querySelector(".game");
   if (gameDom) {
@@ -98,4 +112,29 @@ const createLobbyDom = () => {
   return lobby;
 };
 
-export default createLobbyDom;
+const restartGame = () => {
+  const content = document.getElementById("content");
+  removeGameDom(content);
+  removePopUp(content);
+  content.appendChild(createLobbyDom());
+};
+
+const createWinnerDom = (winner) => {
+  const winnerDomContainer = createElWithClassAndText(
+    "div",
+    "winner-container",
+  );
+  const winnerDom = createElWithClassAndText(
+    "div",
+    "winnner-dom",
+    `${winner} WON!`,
+  );
+
+  const restartBtn = createElWithClassAndText("button", "restart", "restart");
+  restartBtn.addEventListener("click", restartGame);
+  winnerDomContainer.appendChild(winnerDom);
+  winnerDomContainer.appendChild(restartBtn);
+  return winnerDomContainer;
+};
+
+export { createLobbyDom, createWinnerDom };
