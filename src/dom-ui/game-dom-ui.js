@@ -30,15 +30,6 @@ const checkAllShips = (player1, player2) => {
   }
 };
 
-const waitForDomUpdate = (dom, keyName, key) =>
-  new Promise((resolve, reject) => {
-    if (dom.getAttribute(keyName) === key) {
-      resolve(`${keyName} is ${key}`);
-    } else {
-      reject(new Error(`${keyName} is not ${key}`));
-    }
-  });
-
 const checkAIShipCoordinates = (dom, coordinates, player, opponent) => {
   const square = opponent.board.getCoordinates(coordinates);
   if (player.type === "player" && "ship" in square) {
@@ -59,9 +50,7 @@ const attackOpponentBoard = (dom, coordinates, player, opponent) => {
   player.player.attack(coordinates, opponent.board, "receiveAttack");
   updateStatusDom(dom, opponent.board.getCoordinates(coordinates).status);
   setMultipleBorderColor(colors, dom);
-  waitForDomUpdate(dom, "data-status", "targeted").then(() => {
-    checkAllShips(player, opponent);
-  });
+  checkAllShips(player, opponent);
 };
 
 const findDomChildrenByAttribute = (parentDom, attribute, key) =>
@@ -81,8 +70,10 @@ const aITakeATurn = (parentDom, player, opponent) => {
     `${coordinates}`,
   );
 
-  attackOpponentBoard(dom, coordinates, player, opponent);
-  colorShip(colors, dom, coordinates, opponent);
+  if (!gameOver(player, opponent)) {
+    attackOpponentBoard(dom, coordinates, player, opponent);
+    colorShip(colors, dom, coordinates, opponent);
+  }
 };
 
 const playerTakeATurn = (
@@ -108,7 +99,8 @@ const checkTurnValidity = (
 ) => {
   if (
     playerDom.getAttribute("data-status") === "free" &&
-    !opponent.board.haveAllShipsSunk()
+    !opponent.board.haveAllShipsSunk() &&
+    !player.board.haveAllShipsSunk()
   ) {
     fn(playerDom, opponentDom, coordinates, player, opponent);
   }
