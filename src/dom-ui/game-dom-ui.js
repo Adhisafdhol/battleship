@@ -2,7 +2,7 @@ import { updateStatusDom, setUpGameboardDom } from "./dom-ui";
 import { setMultipleBorderColor, setRandomColor } from "./color-changing";
 import { createElWithClassAndText } from "./dom-method";
 import aiMakeAMove from "../ai-smart-turn";
-import { createWinnerDom } from "./lobby-ui";
+import createWinnerDom from "./restart-game";
 
 const colors = [
   "#65dc98",
