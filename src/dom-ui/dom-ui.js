@@ -19,14 +19,14 @@ const setUpPlayerBoard = (playerName) => {
 const populateBoard = (board) => {
   const spec = {
     ship: [
-      Ship(4),
+      Ship(5),
       Ship(4),
       Ship(3),
       Ship(3),
       Ship(3),
       Ship(2),
       Ship(2),
-      Ship(1),
+      Ship(2),
       Ship(1),
       Ship(1),
     ],
