@@ -188,13 +188,14 @@ const makeCalculatedOrientationMove = (
     taggedDom[0].classList.remove(`${orientation}`);
   }
 
+  const orientationCoordinates =
+    freeOrientationAdjecentList[
+      randomIndex(freeOrientationAdjecentList.length)
+    ];
+
   if (freeOrientationAdjecentList.length > 0 && taggedDom[0] !== null) {
     taggedDom[0].classList.remove("tagged-unchecked");
     taggedDom[0].classList.add("tagged-checked");
-    const orientationCoordinates =
-      freeOrientationAdjecentList[
-        randomIndex(freeOrientationAdjecentList.length)
-      ];
     const selectedDom = opponentBoard.querySelector(
       `[data-coordinates="${orientationCoordinates}"]`,
     );
@@ -202,40 +203,46 @@ const makeCalculatedOrientationMove = (
     if (selectedDom.classList.contains("ship")) {
       tagDomOrientation(taggedDom[0], selectedDom);
     }
-    return orientationCoordinates;
   }
+
+  console.log(orientationCoordinates);
+  return orientationCoordinates;
 };
 
 const aiSmartMove = (
-  taggedOrientationDom,
+  taggedRowDom,
+  taggedColumnDom,
   taggedDom,
   coordinates,
-  orientation,
   opponentBoard,
   opponent,
 ) => {
-  console.log(taggedOrientationDom);
-  if (taggedOrientationDom.length > 0) {
-    const orientationCoordinates = makeCalculatedOrientationMove(
-      taggedOrientationDom,
-      orientation,
+  const rowCoordinates = makeCalculatedOrientationMove(
+    taggedRowDom,
+    "row",
+    opponentBoard,
+  );
+  const columnCoordinates = makeCalculatedOrientationMove(
+    taggedColumnDom,
+    "column",
+    opponentBoard,
+  );
+
+  if (rowCoordinates !== null) {
+    return rowCoordinates;
+  }
+
+  if (columnCoordinates !== null) {
+    return columnCoordinates;
+  }
+
+  if (taggedDom.length > 0) {
+    return makeCalculatedSpaceMove(
+      taggedDom,
+      coordinates,
+      opponent,
       opponentBoard,
     );
-
-    if (orientationCoordinates !== null) {
-      return orientationCoordinates;
-    }
-
-    if (taggedDom.length > 0) {
-      return makeCalculatedSpaceMove(
-        taggedDom,
-        coordinates,
-        opponent,
-        opponentBoard,
-      );
-    }
-
-    return coordinates;
   }
 
   return coordinates;
@@ -253,22 +260,12 @@ const aiMakeAMove = (boardDom, player, opponent) => {
   const taggedDoms = opponentBoard.querySelectorAll(".tagged-unchecked");
   const taggedRowDom = opponentBoard.querySelectorAll(".row");
   const taggedColumnDom = opponentBoard.querySelectorAll(".column");
-  if (taggedRowDom.length > 0) {
+  if (taggedRowDom.length > 0 || taggedColumnDom > 0) {
     return aiSmartMove(
       taggedRowDom,
-      taggedDoms,
-      coordinates,
-      "row",
-      opponentBoard,
-      opponent,
-    );
-  }
-  if (taggedColumnDom.length > 0) {
-    return aiSmartMove(
       taggedColumnDom,
       taggedDoms,
       coordinates,
-      "column",
       opponentBoard,
       opponent,
     );
