@@ -165,6 +165,12 @@ body {
   background-color: var(--medium-accent-color);
   border: 3px solid var(--dark-color-1);
 }
+
+.start-btn:hover {
+  color: var(--medium-accent-color);
+  background-color: var(--dark-color-1);
+  border: 3px solid var(--medium-accent-color);
+}
 /* main game board style */
 .vs-text {
   font-size: clamp(2rem, 3vw, calc(3rem + 1vw));
@@ -260,10 +266,14 @@ button.restart {
   background-color: var(--dark-color-1);
   border: none;
   padding: 0.25em 0.75em;
-  box-shadow: 0 3px 0 2px var(--main-accent-color);
   color: var(--medium-accent-color);
 }
 
+button.restart:hover {
+  color: var(--dark-color-1);
+  background-color: var(--medium-accent-color);
+  box-shadow: 0 3px 0 2px var(--dark-color-1);
+}
 @media only screen and (max-width: 1024px) {
   .game {
     flex-direction: column;
