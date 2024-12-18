@@ -12,15 +12,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Aadheuss/battleship.git"
+    "url": "git+https://github.com/Adhisafdhol/battleship.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Aadheuss/battleship/issues"
+    "url": "https://github.com/Adhisafdhol/battleship/issues"
   },
-  "homepage": "https://github.com/Aadheuss/battleship#readme",
+  "homepage": "https://github.com/Adhisafdhol/battleship#readme",
   "devDependencies": {
     "@babel/core": "^7.23.3",
     "@babel/preset-env": "^7.23.3",
